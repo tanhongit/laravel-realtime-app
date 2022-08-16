@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Make image style from name
+ * @param $name
+ * @return string
+ */
 function makeImageFromName($name) {
     $userImage = "";
     $shortName = "";
