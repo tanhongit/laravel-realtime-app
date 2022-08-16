@@ -51,4 +51,14 @@ class User extends Authenticatable
     {
         return self::where('id', '!=', Auth::id())->get();
     }
+
+    public static function getMyInfo()
+    {
+        return self::find(Auth::id());
+    }
+
+    public static function getConversationUser($id)
+    {
+        return self::find($id);
+    }
 }
