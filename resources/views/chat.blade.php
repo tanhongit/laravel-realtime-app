@@ -10,7 +10,7 @@
                         @if($users->count())
                             @foreach($users as $user)
                                 <li class="chat-user-list">
-                                    <a href="{{ $user->id }}">
+                                    <a href="{{ route('conversation.index', $user->id) }}">
                                         <div class="chat-image">
                                             {!! makeImageFromName($user->name) !!}
                                             <i class="fa fa-circle user-status-icon user-icon-{{ $user->id }}"

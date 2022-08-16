@@ -2,18 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Conversation;
+use App\Models\ConversationUser;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class ConversationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($userId)
     {
-        //
+
+        $conversation = Conversation::getConversationByUserId($userId);
+
+        if (count($conversation)) {
+            $users = User::getUsersNotAuthenticated();
+            $friendInfo = User::findOrFail($userId);
+            $myInfo = User::getMyInfo();
+            $this->data = array(
+                'users' => $users,
+                'friendInfo' => $friendInfo,
+                'myInfo' => $myInfo,
+            );
+        } else {
+
+        }
+        return view('conversation.index ', $this->data);
     }
 
     /**

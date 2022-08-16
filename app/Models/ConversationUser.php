@@ -18,4 +18,12 @@ class ConversationUser extends Model
             'message_id', 'sender_id')
             ->withTimestamps();
     }
+
+    public static function getConversationUserByUserId($userId) {
+        $conversationUser = ConversationUser::where('user_id', '=', $userId)->get();
+        if (count($conversationUser) > 0) {
+            return $conversationUser;
+        }
+        return array();
+    }
 }
