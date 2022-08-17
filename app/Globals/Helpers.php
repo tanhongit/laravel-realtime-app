@@ -11,10 +11,10 @@ function makeImageFromName($name) {
 
     $names = explode(" ", $name);
 
-    foreach ($names as $w) {
+    foreach($names as $w) {
         $shortName .= $w[0];
     }
 
-    $userImage = '<div class="name-image bg-primary">'.$shortName.'</div>';
+    $userImage = '<div class="name-image bg-primary">' . $shortName . '</div>';
     return $userImage;
 }

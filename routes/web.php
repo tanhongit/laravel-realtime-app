@@ -21,4 +21,5 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/chat', [App\Http\Controllers\ChatController::class, 'index'])->name('chat');
-Route::get('/conversation/{userId}', [App\Http\Controllers\ConversationController::class, 'index'])->name('conversation.index');
+Route::get('/c/{userId}', [App\Http\Controllers\ConversationController::class, 'index'])->name('conversation.index');
+Route::get('/m/{userId}', [App\Http\Controllers\MessageController::class, 'index'])->name('message.index');
