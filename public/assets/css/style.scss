@@ -15,8 +15,9 @@ body {
     color: #ffffff;
     border-radius: 50%;
     font-weight: bold;
-    padding-top: 5px;
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
 }
 
@@ -36,11 +37,14 @@ body {
 
 .user-status-icon {
     position: absolute;
-    top: 22px;
-    left: 28px;
+    top: 28px;
+    left: 25px;
     color: grey;
 }
 
+i.fa.fa-circle.user-status-icon {
+    font-size: 12px;
+}
 .chat-image {
     position: relative;
 }
@@ -73,13 +77,11 @@ body {
 }
 
 .chat-input-toolbar {
-    border-left: 1px solid gray;
-    border-right: 1px solid gray;
-    border-bottom: 1px solid gray;
+    border: 1px solid lightgray;
+    border-top: unset;
     padding: 8px 10px;
-}
 
-.chat-input-toolbar .tool-items {
-    margin-right: 5px;
-    opacity: 0.3;
+    .tool-items {
+        margin-right: 5px;
+    }
 }
