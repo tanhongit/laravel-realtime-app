@@ -24,8 +24,7 @@ class Conversation extends Model
         if (!count($conversationUser)) {
             return array();
         }
-
-        $conversation = Conversation::where('id', '=', $conversationUser->conversation_id)->get();
+        $conversation = Conversation::where('id', '=', $conversationUser[0]->conversation_id)->get();
         if (count($conversation) > 0) {
             return $conversation;
         }

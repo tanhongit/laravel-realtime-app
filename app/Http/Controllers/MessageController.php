@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
@@ -16,9 +17,19 @@ class MessageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($userId)
     {
-        //
+        $users = User::getUsersNotAuthenticated();
+        $friendInfo = User::findOrFail($userId);
+        $myInfo = User::getMyInfo();
+
+        $this->data = array(
+            'users' => $users,
+            'friendInfo' => $friendInfo,
+            'myInfo' => $myInfo,
+        );
+
+        return view('message.index', $this->data);
     }
 
     /**

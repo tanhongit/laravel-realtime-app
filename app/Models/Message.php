@@ -18,4 +18,8 @@ class Message extends Model
             'message_id', 'sender_id')
             ->withTimestamps();
     }
+
+    public function user_messages() {
+        return $this->hasMany(UserMessage::class);
+    }
 }

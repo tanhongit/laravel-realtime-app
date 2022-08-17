@@ -10,7 +10,7 @@
                         @if($users->count())
                             @foreach($users as $user)
                                 <li class="chat-user-list">
-                                    <a href="{{ route('conversation.index', $user->id) }}">
+                                    <a href="{{ route('message.index', $user->id) }}">
                                         <div class="chat-image">
                                             {!! makeImageFromName($user->name) !!}
                                             <i class="fa fa-circle user-status-icon user-icon-{{ $user->id }}"
@@ -26,16 +26,6 @@
                         @endif
                     </ul>
                 </div>
-            </div>
-
-            <div class="col-md-9">
-                <h1>
-                    Message Section
-                </h1>
-
-                <p class="lead">
-                    Select user from the list to begin conversation.
-                </p>
             </div>
         </div>
     </div>

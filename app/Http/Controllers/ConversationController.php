@@ -21,21 +21,27 @@ class ConversationController extends Controller
      */
     public function index($userId)
     {
-
+        $this->data = array();
         $conversation = Conversation::getConversationByUserId($userId);
-
-        if (count($conversation)) {
-            $users = User::getUsersNotAuthenticated();
-            $friendInfo = User::findOrFail($userId);
-            $myInfo = User::getMyInfo();
-            $this->data = array(
-                'users' => $users,
-                'friendInfo' => $friendInfo,
-                'myInfo' => $myInfo,
-            );
-        } else {
-
+        $users = User::getUsersNotAuthenticated();
+        $friendInfo = User::findOrFail($userId);
+        $myInfo = User::getMyInfo();
+        if (!count($conversation)) {
+            $conversation = new Conversation();
+            $conversation->save();
+            $conversationUser = new ConversationUser();
+            $conversationUser->conversation_id = $conversation->id;
+            $conversationUser->user_id = $userId;
+            $conversationUser->sender_id = auth()->user()->id;
+            $conversationUser->receiver_id = $userId;
+            $conversationUser->save();
         }
+        $this->data = array(
+            'users' => $users,
+            'friendInfo' => $friendInfo,
+            'myInfo' => $myInfo,
+        );
+
         return view('conversation.index ', $this->data);
     }
 
