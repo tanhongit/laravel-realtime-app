@@ -2,7 +2,7 @@
 
 # 1. Technology
 - PHP 8.1
-- Laarvel Framework 9.x
+- Laravel Framework 9.x
 
 # 2. Configuration requirements
 - Install composer: https://getcomposer.org/
@@ -60,6 +60,14 @@ php artisan migrate
 ## Launch project
 Now, Launch your system...
 
+Run: 
+
 ```bash
 npm run dev
+```
+
+Also create a new terminal tab and run:
+
+```bash
+node server.js
 ```
