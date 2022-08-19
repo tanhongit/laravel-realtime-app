@@ -68,6 +68,12 @@
             });
 
             socket.on('updateAuthStatus', (data) => {
+                // for disconnect user
+                let $userStatusIcon = $('.user-status-icon');
+                $userStatusIcon.removeClass('text-success');
+                $userStatusIcon.attr('title', 'Away');
+
+                // for connected user
                 $.each(data, function (key, val) {
                     if (val !== null && val !== 0) {
                         let $userIcon = $(".user-icon-" + key);

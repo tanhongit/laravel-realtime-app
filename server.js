@@ -31,6 +31,13 @@ io.on('connection', function (socket) {
         io.emit('updateAuthStatus', users);
         console.log("Auth user connected " + authId);
     });
+
+    socket.on('disconnect', function() {
+        var i = users.indexOf(socket.id);
+        users.splice(i, 1, 0);
+        io.emit('updateUserStatus', users);
+        console.log(users);
+    });
 });
 
 
