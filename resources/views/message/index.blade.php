@@ -55,7 +55,7 @@
 @push('scripts')
     <script>
         $(function () {
-            let userId = "{{ auth()->user()->id }}";
+            let authId = "{{ auth()->user()->id }}";
             let ipAddress = '//realtime-app.local';
             let socketPort = '3001'; // same by port on server.js
 
@@ -63,8 +63,18 @@
             let friendId = "{{ $friendInfo->id }}";
 
             socket.on('connect', function () {
-                alert('Test connect');
-                socket.emit('user_connected', userId);
+                //alert('Test connect');
+                socket.emit('user_connected', authId);
+            });
+
+            socket.on('updateAuthStatus', (data) => {
+                $.each(data, function (key, val) {
+                    if (val !== null && val !== 0) {
+                        let $userIcon = $(".user-icon-" + key);
+                        $userIcon.addClass('text-success');
+                        $userIcon.attr('title', 'Online');
+                    }
+                });
             });
         });
     </script>
