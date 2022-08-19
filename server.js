@@ -28,15 +28,15 @@ var users = [];
 io.on('connection', function (socket) {
     socket.on("user_connected", function (authId) {
         users[authId] = socket.id;
-        io.emit('updateAuthStatus', users);
-        console.log("Auth user connected " + authId);
+        io.emit('updateUserStatus', users);
+        console.log("Auth user connected: " + authId);
     });
 
-    socket.on('disconnect', function() {
+    socket.on('disconnect', function () {
         var i = users.indexOf(socket.id);
         users.splice(i, 1, 0);
         io.emit('updateUserStatus', users);
-        console.log(users);
+        console.log('disconnect: ', users);
     });
 });
 
