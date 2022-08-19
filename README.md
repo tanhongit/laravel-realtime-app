@@ -12,8 +12,8 @@
 ## Clone repo
 
 ```bash
-git clone https://github.com/TanHongIT/laravel-training-module
-cd laravel-training-module/blog
+git clone https://github.com/tanhongit/laravel-realtime-app
+cd laravel-realtime-app
 ```
 
 ## Install Composer & npm for project
