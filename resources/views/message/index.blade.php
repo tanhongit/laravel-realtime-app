@@ -67,7 +67,7 @@
                 socket.emit('user_connected', authId);
             });
 
-            socket.on('updateAuthStatus', (data) => {
+            socket.on('updateUserStatus', (data) => {
                 // for disconnect user
                 let $userStatusIcon = $('.user-status-icon');
                 $userStatusIcon.removeClass('text-success');
