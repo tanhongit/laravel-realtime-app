@@ -51,3 +51,21 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        $(function () {
+            let userId = "{{ auth()->user()->id }}";
+            let ipAddress = '//realtime-app.local';
+            let socketPort = '3001'; // same by port on server.js
+
+            let socket = io(ipAddress + ':' + socketPort, {secure: true, transports: ['websocket']});
+            let friendId = "{{ $friendInfo->id }}";
+
+            socket.on('connect', function () {
+                alert('Test connect');
+                socket.emit('user_connected', userId);
+            });
+        });
+    </script>
+@endpush
