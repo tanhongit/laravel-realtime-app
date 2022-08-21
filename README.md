@@ -49,7 +49,7 @@ mkcert realtime-app.local
 Move back to the original installation directory.
 
 ```shell
-cd ../../../
+cd ../../../../
 ```
 
 And run the following command:
