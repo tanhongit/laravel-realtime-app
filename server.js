@@ -25,6 +25,9 @@ const {Server} = require('socket.io');
 const io = new Server(server);
 var users = [];
 
+var Redis = require('ioredis');
+var redis = new Redis();
+
 io.on('connection', function (socket) {
     socket.on("user_connected", function (authId) {
         users[authId] = socket.id;
@@ -40,4 +43,7 @@ io.on('connection', function (socket) {
     });
 });
 
+redis.subscribe('private-channel', () => {
+    console.log('subscribed to private-channel');
+});
 
