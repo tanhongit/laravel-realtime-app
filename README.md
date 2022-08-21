@@ -1,60 +1,100 @@
-# laravel-realtime-app
+# Welcome to Laravel Docker Config
 
-# 1. Technology
-- PHP 8.1
-- Laravel Framework 9.x
+This is a simple Docker Compose workflow that sets up a LEMP network of containers for local Laravel development
 
-# 2. Configuration requirements
-- Install composer: https://getcomposer.org/
+## Configuration requirements
 
-# 3. Running
+To use the fpm image, you need an additional web server, such as nginx, that can proxy http-request to the fpm-port of the container. For fpm connection this container exposes port 9000.
 
-## Clone repo
+ - Web-server: Nginx
+ - PHP Version: 8.1
+ - DBMS (database management system): mariadb
+ - PHP Framework: Laravel 9.x
+ - In-memory database: Redis
+ - SSL Certificate (using mkcert)
+ 
+## Steps
 
-```bash
-git clone https://github.com/tanhongit/laravel-realtime-app
-cd laravel-realtime-app
+### 1. Install ssl certificate
+Using mkcert to create ssl certificate
+
+#### For Ubuntu
+
+```shell
+sudo apt install libnss3-tools
+
+sudo wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.3/mkcert-v1.4.3-linux-amd64 && \
+sudo mv mkcert-v1.4.3-linux-amd64 mkcert && \
+sudo chmod +x mkcert && \
+sudo cp mkcert /usr/local/bin/
 ```
 
-## Install Composer & npm for project
+Now that the mkcert utility is installed, run the command below to generate and install your local CA:
+
+```shell
+mkcert -install
+```
+
+### 2. Create ssl certificate for this project
 
 Run:
 
-```bash
-npm install
-composer install
+```shell
+cd sources/tcom/realtime-app/certs
+mkcert realtime-app.local
 ```
 
-## Create APP_KEY
+### 3. Run to setup: 
 
-Run:
+Move back to the original installation directory.
 
+```shell
+cd ../../../
 ```
-cp .env.example .env
-php artisan key:generate
+
+And run the following command:
+
+```shell
+docker-compose up -d
+docker-compose run server composer install
+docker-compose run server npm install
+docker-compose run server cp .env.example .env
+docker-compose run server php artisan key:generate
 ```
 
-## Create a new database in your host & edit .env
+### 4. Modify **.env** on laravel source
 
-Create a new database in your server and edit the information in the .env file
+Change database configuration to use or using default values:
 
-```laravel
-DB_CONNECTION=mysql
-DB_HOST=172.24.0.2
-DB_PORT=3306
+```php
 DB_DATABASE=realtime-app
 DB_USERNAME=root
 DB_PASSWORD=root
 ```
 
-> Don't forget to change __APP_URL__ on *.env* file for your app.
+## Check the network ID and connect Database
 
-## Migrate Database
+### 1. Check CONTAINER ID
+- Run `docker ps` to check the Container ID of **APP_NAME-db**
+- Run the command `docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' <container ID>`
 
-Run:
+```shell
+docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}
+```
 
-```bash
-php artisan migrate
+![image](https://imgur.com/eXqHQVb.png)
+
+### 2. Update DB_HOST on .env file
+Please enter the container ID you just got in step 1 and replace the **DB_HOST** variable in the .env file
+
+Example:
+```shell
+DB_CONNECTION=mysql
+DB_HOST=172.21.0.3
+DB_PORT=3306
+DB_DATABASE=realtime-app
+DB_USERNAME=root
+DB_PASSWORD=root
 ```
 
 ## Launch project
@@ -63,11 +103,13 @@ Now, Launch your system...
 Run: 
 
 ```bash
+cd sources/tcom/realtime-app
 npm run dev
 ```
 
 Also create a new terminal tab and run:
 
 ```bash
+cd sources/tcom/realtime-app
 node server.js
 ```
