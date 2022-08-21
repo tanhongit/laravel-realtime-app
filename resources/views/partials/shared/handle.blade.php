@@ -35,30 +35,36 @@
                 let message = $(this).html();
                 if (e.which === 13 && !e.shiftKey && !e.ctrlKey) {
                     // alert('Test enter');
-                    let url = "{{ route('message.create') }}";
-                    let form = $(this);
-                    let formData = new FormData();
-                    let token = "{{ csrf_token() }}";
-
-                    formData.append('message', message);
-                    formData.append('_token', token);
-                    formData.append('receiver_id', friendId);
-
-                    $.ajax({
-                        url: url,
-                        type: 'POST',
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        dataType: 'JSON',
-                        success: function (response) {
-                            if (response.success) {
-                                console.log(response.data);
-                            }
-                        }
-                    });
+                    chatInput.html('');
+                    sendMessage(message);
+                    return false;
                 }
             });
+
+            function sendMessage(message) {
+                let url = "{{ route('message.create') }}";
+                let form = $(this);
+                let formData = new FormData();
+                let token = "{{ csrf_token() }}";
+
+                formData.append('message', message);
+                formData.append('_token', token);
+                formData.append('receiver_id', friendId);
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'JSON',
+                    success: function (response) {
+                        if (response.success) {
+                            console.log(response.data);
+                        }
+                    }
+                });
+            }
         });
     </script>
 @endpush
