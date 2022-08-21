@@ -7,6 +7,7 @@ use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Http\jsonResponse;
 use Illuminate\Support\Facades\Auth;
+use App\Events\PrivateMessageEvent;
 
 class MessageController extends Controller
 {
@@ -67,6 +68,8 @@ class MessageController extends Controller
                     'created_at' => $message->created_at,
                     'message_id' => $message->id,
                 );
+
+                event(new PrivateMessageEvent($data));
 
                 return response()->json([
                     'data' => $data,
