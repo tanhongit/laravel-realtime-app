@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Message;
 use Illuminate\Http\Request;
+use Illuminate\Http\jsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
@@ -35,11 +38,45 @@ class MessageController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $request->validate([
+            'message' => 'required',
+            'receiver_id' => 'required'
+        ]);
+
+        $sender_id = Auth::id();
+        $receiver_id = $request->receiver_id;
+
+        $message = new Message();
+        $message->message = $request->message;
+        $message->user_id = $sender_id;
+
+        if ($message->save()) {
+            try {
+                $message->users()->attach($sender_id, ['receiver_id' => $receiver_id]);
+                $sender = User::find($sender_id)->first();
+
+                $data = array(
+                    'sender_id' => $sender_id,
+                    'sender_name' => $sender->name,
+                    'receiver_id' => $receiver_id,
+                    'content' => $message->message,
+                    'created_at' => $message->created_at,
+                    'message_id' => $message->id,
+                );
+
+                return response()->json([
+                    'data' => $data,
+                    'success' => true,
+                    'message' => 'Message sent successfully'
+                ]);
+            } catch (\Exception $e) {
+                $message->delete();
+            }
+        }
     }
 
     /**
