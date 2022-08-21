@@ -13,7 +13,7 @@ To use the fpm image, you need an additional web server, such as nginx, that can
  - In-memory database: Redis
  - SSL Certificate (using mkcert)
  
-## Steps
+## Install Steps
 
 ### 1. Install ssl certificate
 Using mkcert to create ssl certificate
@@ -95,6 +95,19 @@ DB_PORT=3306
 DB_DATABASE=realtime-app
 DB_USERNAME=root
 DB_PASSWORD=root
+```
+
+### 3. Update REDIS_HOST on .env file
+Please enter the container ID same step 1 and replace the **REDIS_HOST** variable in the .env file
+
+- Run `docker ps` to check the Container ID of **redis_APP_NAME**
+- Run the command `docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' <redis container ID>`
+- Update the REDIS_HOST variable in the .env file
+
+Example:
+```shell
+REDIS_HOST=
+REDIS_PORT=6379
 ```
 
 ## Launch project
