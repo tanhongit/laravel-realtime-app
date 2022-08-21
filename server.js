@@ -1,9 +1,10 @@
 const express = require('express');
 const fs = require('fs');
 const app = express();
+require('dotenv').config();
 
 const https = require('https');
-var options = {
+let options = {
     key: fs.readFileSync('certs/realtime-app.local-key.pem').toString(),
     cert: fs.readFileSync('certs/realtime-app.local.pem').toString(),
     requestCert: false,
@@ -23,10 +24,12 @@ app.get('/hello', (req, res) => {
 
 const {Server} = require('socket.io');
 const io = new Server(server);
-var users = [];
+let users = [];
 
-const Redis = require('ioredis');
-const redis = new Redis();
+let redisPort = process.env.REDIS_PORT;
+let redisHost = process.env.REDIS_HOST;
+let ioRedis = require('ioredis');
+let redis = new ioRedis(redisPort, redisHost);
 
 io.on('connection', function (socket) {
     socket.on("user_connected", function (authId) {
@@ -36,7 +39,7 @@ io.on('connection', function (socket) {
     });
 
     socket.on('disconnect', function () {
-        var i = users.indexOf(socket.id);
+        let i = users.indexOf(socket.id);
         users.splice(i, 1, 0);
         io.emit('updateUserStatus', users);
         console.log('disconnect: ', users);

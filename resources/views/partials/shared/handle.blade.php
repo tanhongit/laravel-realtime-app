@@ -3,7 +3,7 @@
         $(function () {
             let chatInput = $(".chat-input");
             let messageWrapper = $("#messageWrapper");
-            let authId = "{{ auth()->user()->id }}";
+            let authId = "{{ Auth::id() }}";
             let ipAddress = '//realtime-app.local';
             let socketPort = '3001'; // same by port on server.js
 
@@ -69,7 +69,7 @@
                     dataType: 'JSON',
                     success: function (response) {
                         if (response.success) {
-                            console.log(response.data);
+                            console.log(response.message);
                         }
                     }
                 });
