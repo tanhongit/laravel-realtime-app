@@ -11,7 +11,7 @@ services:
       context: .
       dockerfile: ./docker/Dockerfile
     container_name: '${APP_NAME}-server'
-    working_dir: /var/www/html/
+    working_dir: /var/www/html/tcom/realtime-app
     volumes:
       - ./sources:/var/www/html
       - ./docker/server/php/php.ini:/usr/local/etc/php/conf.d/extra-php-config.ini
